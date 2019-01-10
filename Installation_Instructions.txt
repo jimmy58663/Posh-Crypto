@@ -1,0 +1,10 @@
+﻿To install this module copy the Posh-Crypto folder to a path in your $env:PSModulePath variable.
+Two default locations in this variable are listed below:
+
+"$env:ProgramFiles\WindowsPowerShell\Modules"
+    Typically '$env:ProgramFiles' is C:\Program Files. You can check to make sure by opening PowerShell and typing:
+    $env:ProgramFiles
+
+"$env:USERPROFILE\Documents\WindowsPowerShell\Modules"
+    Typically '$env:USERPROFILE' is C:\Users\[Your Username]. You can check to make sure by opening PowerShell and typing:
+    $env:USERPROFILE
