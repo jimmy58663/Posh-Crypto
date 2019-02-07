@@ -97,11 +97,11 @@ public sealed class SecureStringBytes : IDisposable {
     }
 
     private static byte[] ConvertSecureStringToBytes (SecureString secureString) {
-        var result = new byte[secureString.Length * 2];
+        var result = new byte[32];
         IntPtr valuePtr = IntPtr.Zero;
         try {
             valuePtr = Marshal.SecureStringToGlobalAllocUnicode (secureString);
-            for (int i = 0; i < secureString.Length; i++) {
+            for (int i = 0; i < secureString.Length || i > 32; i++) {
                 result[i] = Marshal.ReadByte (valuePtr, i * 2);
                 result[i + 1] = Marshal.ReadByte (valuePtr, i * 2 + 1);
             }
@@ -176,10 +176,10 @@ Param(
                 $Directories = Get-ChildItem -Path $Entry -Directory -Force:$Force
                 $Files = Get-ChildItem -Path $Entry -File -Force:$Force
                 ForEach ($Folder in $Directories){
-                    Protect-File -Path $Folder.FullName -Key $Key -Recurse
+                    Protect-File -Path $Folder.FullName -Key $Key -Recurse -Force:$Force
                 }
                 ForEach ($Item in $Files){
-                    Protect-File -Path $Item.FullName -Key $Key
+                    Protect-File -Path $Item.FullName -Key $Key -Force:$Force
                 }
                 Continue
             }
@@ -273,10 +273,10 @@ Param(
                 $Directories = Get-ChildItem -Path $Entry -Directory -Force:$Force
                 $Files = Get-ChildItem -Path $Entry -File -Force:$Force
                 ForEach ($Folder in $Directories){
-                    Unprotect-File -Path $Folder.FullName -Key $Key -Recurse
+                    Unprotect-File -Path $Folder.FullName -Key $Key -Recurse -Force:$Force
                 }
                 ForEach ($Item in $Files){
-                    Unprotect-File -Path $Item.FullName -Key $Key
+                    Unprotect-File -Path $Item.FullName -Key $Key -Force:$Force
                 }
                 Continue
             }
